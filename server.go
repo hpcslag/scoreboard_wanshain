@@ -14,7 +14,7 @@ var db *sql.DB
 
 func init() {
 	var err error
-	db, err = sql.Open("mysql", "user:password@tcp(ip:3306)/scoreboard?charset=utf8")
+	db, err = sql.Open("mysql", "username:password@tcp(ip:3306)/scoreboard?charset=utf8")
 	if err != nil {
 		panic("Database Connection Failed!")
 	}
@@ -28,7 +28,16 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 	if operator == "new" {
 
-		//flag := data
+		flag := data
+
+		stmt, err := db.Prepare("INSERT INTO countries(country,score,flag_url) VALUES(?,0,?)")
+		if err != nil {
+			panic(err)
+		}
+		res, err := stmt.Exec(name, flag)
+
+		lastInsertId, _ := res.LastInsertId()
+		fmt.Fprintf(w, `{ lastInsertId: `+strconv.FormatInt(lastInsertId, 10)+`}`)
 
 	} else if operator == "update" {
 
@@ -67,17 +76,15 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 
 			fmt.Println("coutnry: ", country, ", score: ", score)
 
-			json += "{\"country\":\"" + country + "\",\"score\":" + strconv.FormatInt(score, 10) + ", \"flag\":\"" + flag + "\"}"
+			json += "{\"country\":\"" + country + "\",\"score\":" + strconv.FormatInt(score, 10) + ", \"flag\":\"" + flag + "\"},"
 		}
-		json += "]"
+		json = json[:len(json)-1] + "]"
 
 		fmt.Fprintf(w, json)
 
 	} else {
 		fmt.Fprintf(w, "{ error: \"No Operator Set In Parameter!\"}")
 	}
-	//score, _ := strconv.Atoi(data)
-	//fmt.Fprintf(w, "data: %s", string(operator))
 }
 
 func main() {
