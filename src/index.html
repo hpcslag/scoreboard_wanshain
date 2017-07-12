@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scoreboard</title>
+	<style type="text/css">
+		body {
+		  font-family: 'Fira Sans', sans-serif;
+		  font-size: 50px;
+		}
+
+		.container {
+		  margin: 0 auto;
+		}
+
+		.row {
+		  display: inline-block;
+		  background: white;
+		  background: -moz-linear-gradient(top, white 0%, #f6f6f6 47%, #ededed 100%);
+		  background: -webkit-gradient(left top, left bottom, color-stop(0%, white), color-stop(47%, #f6f6f6), color-stop(100%, #ededed));
+		  background: -webkit-linear-gradient(top, white 0%, #f6f6f6 47%, #ededed 100%);
+		  background: -o-linear-gradient(top, white 0%, #f6f6f6 47%, #ededed 100%);
+		  background: -ms-linear-gradient(top, white 0%, #f6f6f6 47%, #ededed 100%);
+		  background: linear-gradient(to bottom, white 0%, #f6f6f6 47%, #ededed 100%);
+		  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0 );
+		}
+
+		.player-name {
+		  display: inline-block;
+		  width: 300px;
+		}
+
+		.winner {
+		  font-weight: bold;
+		}
+
+		.global-points {
+		  padding: 0px 10px 0px 10px;
+		}
+
+		.set {
+		  padding: 0px 10px 0px 10px;
+		  margin-right: 2px;
+		  background: #4c4c4c;
+		  color: white;
+		  font-family: 'Droid Sans Mono', monospace;
+		  font-size: 53px;
+		  background: -moz-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, black 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+		  background: -webkit-gradient(left top, left bottom, color-stop(0%, #4c4c4c), color-stop(12%, #595959), color-stop(25%, #666666), color-stop(39%, #474747), color-stop(50%, #2c2c2c), color-stop(51%, black), color-stop(60%, #111111), color-stop(76%, #2b2b2b), color-stop(91%, #1c1c1c), color-stop(100%, #131313));
+		  background: -webkit-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, black 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+		  background: -o-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, black 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+		  background: -ms-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, black 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+		  background: linear-gradient(to bottom, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, black 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%);
+		  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313', GradientType=0 );
+		}
+
+		.current-points {
+		  font-family: 'Droid Sans Mono', monospace;
+		  min-width: 400px;
+		  font-size: 53px;
+		  margin-left: 10px;
+		  padding: 0px 10px 0px 10px;
+		  background: #f1e767;
+		  background: -moz-linear-gradient(top, #f1e767 0%, #feb645 100%);
+		  background: -webkit-gradient(left top, left bottom, color-stop(0%, #f1e767), color-stop(100%, #feb645));
+		  background: -webkit-linear-gradient(top, #f1e767 0%, #feb645 100%);
+		  background: -o-linear-gradient(top, #f1e767 0%, #feb645 100%);
+		  background: -ms-linear-gradient(top, #f1e767 0%, #feb645 100%);
+		  background: linear-gradient(to bottom, #f1e767 0%, #feb645 100%);
+		  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1e767', endColorstr='#feb645', GradientType=0 );
+		}
+
+		.winner {
+		  color: #499bea;
+		}
+
+		.country-flag-img {
+		  margin-left: 10px;
+		  width: 50px;
+		  height: auto;
+		}
+
+		.serve {
+		  display: inline-block;
+		  min-width: 50px;
+		  background: -webkit-linear-gradient(#f1e767, #feb645);
+		  -webkit-background-clip: text;
+		  -webkit-text-fill-color: transparent;
+		}
+	</style>
+	<script src="./jquery-3.2.1.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <div id="player1" class="row">
+    <img class="country-flag-img" src="https://lipis.github.io/flag-icon-css/flags/4x3/ch.svg" alt="swiss flag">
+    <span class="player-name">瑞士</span>
+    <span id="player1-serve" class="serve">&#9668;</span>
+    <span id="player1-global-points"><span id="player1-set1" class="set">0</span></span><span id="player1-points" class="current-points"> 0</span>
+  </div>
+  <br>
+  <div id="player2" class="row">
+    <span class="country-flag"><img class="country-flag-img" src="https://lipis.github.io/flag-icon-css/flags/4x3/es.svg" alt="swiss flag"></span>
+    <span class="player-name">西班牙</span>
+    <span id="player2-serve" class="serve"></span>
+    <span id="player2-global-points"><span id="player2-set1" class="set">0</span></span><span id="player2-points" class="current-points"> 0</span>
+  </div>
+</div>
+
+<!--<button class= "game-control" style="margin-right: 30px;" value="player1" onclick="givePoint('1');">+Point player 1</button><button class= "game-control" style="margin-right: 30px;"  value="player2" onclick="givePoint('2');">+Point player 2</button><button value="player2" onclick="resetGame();">Reset Game</button>-->
+
+
+<script type="text/javascript">
+var currentSet = 1;
+var currentSetScore = [0,0];
+var currentGamesScore = [0,0];
+var currentScore = [0,0];
+var pointsArray = [0, 15, 30, 40, "Ad", ""];
+function switchServe(){
+  if($("#player1-serve").html()==="◄"){
+    $("#player1-serve").html("");
+    $("#player2-serve").html("&#9668;");
+  } else {
+    $("#player2-serve").html("");
+    $("#player1-serve").html("&#9668;");
+  }
+}
+
+function givePoint(player){
+  var currentPoints=currentScore[player-1];
+  switch(pointsArray.indexOf(currentPoints)){
+    case 0:
+    case 1:
+    case 2:
+      currentScore[player-1] = pointsArray[pointsArray.indexOf(currentPoints)+1];
+      break;
+    case 3:
+      if(currentScore[opositePlayer(player)]==40){
+        currentScore[player-1]="Ad";
+        currentScore[opositePlayer(player)]="";
+      } else {
+        giveGame(player);
+        break;
+      }      
+      break;
+    case 4:
+      giveGame(player);
+      break;
+    case 5:
+      currentScore=[40,40];
+      break;
+    default:
+      console.log("error");
+  }
+  updateScore(currentScore);
+}
+
+function opositePlayer(player){
+  if(player-1==0){
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+function giveGame(player){
+  currentScore=[0,0];
+  switchServe();
+  currentGamesScore[player-1]++;
+  $("#player"+player+"-set"+currentSet).html(currentGamesScore[player-1]);
+  if(currentGamesScore[player-1]>=6){
+    if(Math.abs(currentGamesScore[0]-currentGamesScore[1])>=2){
+      giveSet(player);
+    }
+  }  
+}
+
+function giveSet(player){
+  currentGamesScore=[0,0];
+  currentSetScore[player-1]++;
+  $("#player"+player+"-set"+currentSet).addClass("winner");
+  if(currentSetScore[player-1]<3){
+  currentSet++;
+  $("#player1-global-points").append('<span id="player1-set'+currentSet+'" class="set">0</span>');
+  $("#player2-global-points").append('<span id="player2-set'+currentSet+'" class="set">0</span>');
+  } else {
+    if(confirm("player won the game, press OK to restart the game.")){
+      resetGame();
+    } else {
+      $(".game-control").css("visibility","hidden");      
+    }
+  }
+}
+
+function updateScore(score){
+  if(currentScore[0]===""){
+    $("#player1-points").html("&nbsp;&nbsp;");    
+  } else if (currentScore[0]===0){
+    $("#player1-points").html("&nbsp;0");
+  } else {  
+    $("#player1-points").html(currentScore[0]);  
+  }
+  if(currentScore[1]===""){
+    $("#player2-points").html("&nbsp;&nbsp;");    
+  } else if (currentScore[1]===0){
+    $("#player2-points").html("&nbsp;0");
+  } else {  
+    $("#player2-points").html(currentScore[1]);  
+  }
+}
+
+function resetGame(){
+  if(confirm("Do you want to reset the game?")){
+    currentSet = 1;
+    currentSetScore = [0,0];
+    currentGamesScore = [0,0];
+    currentScore = [0,0];
+    $("#player1-points").html("&nbsp;0");
+    $("#player2-points").html("&nbsp;0");
+    $("#player1-set1").html("0");
+    $("#player2-set1").html("0");
+    $("*").removeClass("winner");
+    $("#player1-global-points").html('<span id="player1-set1" class="set">0</span>');
+    $("#player2-global-points").html('<span id="player2-set1" class="set">0</span>');    
+    $("#player1-serve").html("&#9668;");
+    $("#player2-serve").html("");
+    $(".game-control").css("visibility",""); 
+  }
+}
+/*
+	
+create table countries(
+	`country` text, 
+	`score` bigint
+)
+
+insert into countries ( `country`, `score`) VALUES('瑞典', 100000)
+
+
+SET SQL_SAFE_UPDATES = 0;
+update countries SET `score` = 500 WHERE country = '瑞典';
+
+SELECT * FROM countries
+
+SET SQL_SAFE_UPDATES=0; update countries set `score` = `score` + 100 where `country` = '瑞典'
+*/
+</script>
+</body>
+</html>
