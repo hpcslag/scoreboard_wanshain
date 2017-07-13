@@ -92,23 +92,80 @@
 <body>
 
 <div class="container">
-  <div id="player1" class="row">
-    <img class="country-flag-img" src="https://lipis.github.io/flag-icon-css/flags/4x3/ch.svg" alt="swiss flag">
-    <span class="player-name">瑞士</span>
-    <span id="player1-serve" class="serve">&#9668;</span>
-    <span id="player1-global-points"><span id="player1-set1" class="set">0</span></span><span id="player1-points" class="current-points"> 0</span>
-  </div>
-  <br>
-  <div id="player2" class="row">
-    <span class="country-flag"><img class="country-flag-img" src="https://lipis.github.io/flag-icon-css/flags/4x3/es.svg" alt="swiss flag"></span>
-    <span class="player-name">西班牙</span>
-    <span id="player2-serve" class="serve"></span>
-    <span id="player2-global-points"><span id="player2-set1" class="set">0</span></span><span id="player2-points" class="current-points"> 0</span>
-  </div>
 </div>
 
 <!--<button class= "game-control" style="margin-right: 30px;" value="player1" onclick="givePoint('1');">+Point player 1</button><button class= "game-control" style="margin-right: 30px;"  value="player2" onclick="givePoint('2');">+Point player 2</button><button value="player2" onclick="resetGame();">Reset Game</button>-->
 
+<script type="text/javascript">
+
+function processing(){
+
+  document.getElementsByClassName("container")[0].innerHTML = "";
+
+  fetch("/api?op=get").then(function(res){
+    res.json().then(function(json){
+      handleTeams(json);
+    });
+  }).catch(function(error){
+    console.log(JSON.stringify(error));
+  })
+  
+
+  function handleTeams(json){
+
+    json = rank(json);
+
+    json.map((key,value)=>{
+      var html = `
+      <div id="player1" class="row">
+        <img class="country-flag-img" src="${key.flag}" alt="swiss flag">
+        <span class="player-name">${key.country}</span>
+        <span id="player1-serve" class="serve p-${value}" style="visibility: hidden;">&#9668;</span>
+        <span id="player1-global-points"><span id="player1-set1" class="set p-${value}">${key.rank}</span></span><span id="player1-points" class="current-points p-${value}"> ${key.score}</span>
+      </div>
+      <br>
+      `
+      var ele = document.getElementsByClassName("container")[0];
+      ele.insertAdjacentHTML("afterbegin", html)
+    })
+
+    document.getElementsByClassName("serve")[0].style.visibility = "visible";
+  }
+
+  function rank(json){
+    
+    for(var i = json.length-1; i>=1; i--){
+      for(var j = 0; j<= i-1; j++){
+        if(json[j].score > json[j+1]){
+          var temp = json[j];
+          json[j] = json[j+1];
+          json[j+1] = temp;
+        }
+      }
+    }
+
+    for(var i =0;i<json.length;i++){  
+      if(i == 0){
+        json[i].rank = i+1;
+      }else{
+        
+        if(json[i].score == json[i-1].score){
+          json[i].rank = json[i-1].rank;
+        }
+
+        json[i].rank = json[i-1].rank + 1
+      }
+      
+    }
+
+    return json.reverse();
+  }
+}
+
+processing();
+
+//setInterval(processing, 3500)
+</script>
 
 <script type="text/javascript">
 var currentSet = 1;
