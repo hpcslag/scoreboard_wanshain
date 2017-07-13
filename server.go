@@ -20,7 +20,7 @@ func init() {
 	}
 }
 
-//	/api?op=new&name=瑞典&data='flag url'
+//	/api?op=new&name=瑞典&data='flag url'     https://lipis.github.io/flag-icon-css/flags/4x3/se.svg
 //  /api?op=update&name=瑞典&data=10000000 //append data
 //  /api?op=get
 func handleIndex(w http.ResponseWriter, r *http.Request) {
