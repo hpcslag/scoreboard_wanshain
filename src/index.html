@@ -151,9 +151,9 @@ function processing(){
         
         if(json[i].score == json[i-1].score){
           json[i].rank = json[i-1].rank;
+        }else{
+          json[i].rank = json[i-1].rank + 1
         }
-
-        json[i].rank = json[i-1].rank + 1
       }
       
     }
@@ -164,7 +164,7 @@ function processing(){
 
 processing();
 
-//setInterval(processing, 3500)
+setInterval(processing, 3500)
 </script>
 
 <script type="text/javascript">

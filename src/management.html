@@ -5,8 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Management</title>
+    <script type="text/javascript">
+        var password;
+        var pass1="cool";
+        password=prompt('Please enter your password to view this page!',' ');
+        if (password!=pass1) {
+            window.location="/";
+        }
+    </script>
 </head>
 <body>
-    
+
+加分數: <input type="number" value="" id="input_score"/>
+<div id="control_pannel">
+    <div>
+        
+    </div><br />
+</div>
+
+<br><br><br><br><br><br><br><br><br><br>
+<div>
+    <p>Create Team Name: <input type="text" id="create_team_name" />, Flag-url:<input type="text" id="create_team_flag" /> &nbsp;&nbsp;&nbsp;&nbsp; <button onClick="createTeam()">Create!</button></p>
+<div>
+
+
+<script type="text/javascript">
+    fetch("/api?op=get").then(function(resp){
+        resp.json().then(function(json){
+            json.map((value,index)=>{
+                var html = `
+                <div>
+                    <p>${value.country}隊: 得分: <span id="p${index}-score">${value.score}</span> &nbsp;&nbsp;&nbsp;&nbsp; <button onClick="addScore(${index}, '${value.country}')">加分</button> </p>
+                <div><br>
+                `
+
+                document.getElementById("control_pannel").insertAdjacentHTML("beforebegin",html)
+            })
+        });
+    })
+
+    function addScore(team_index,country){
+        if(document.getElementById("input_score").value == "") document.getElementById("input_score").value = 0;
+        var score = parseInt(document.getElementById("input_score").value);
+        var e = parseInt(document.getElementById("p"+team_index+"-score").innerText);
+        var after_score = e + score;
+        document.getElementById("p"+team_index+"-score").innerText = after_score;
+
+        fetch(`/api?op=update&name=${country}&data=${score}`)
+    }
+
+    function createTeam(){
+        var name = document.getElementById("create_team_name").value;
+        var flag = document.getElementById("create_team_flag").value;
+        
+        fetch(`/api?op=new&name=${name}&data=${flag}`)
+    }
+</script>
+
 </body>
 </html>
