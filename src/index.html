@@ -4,7 +4,7 @@
 	<title>Scoreboard</title>
 	<style type="text/css">
 		body {
-		  font-family: 'Fira Sans', sans-serif;
+		  font-family: '微軟正黑體','Fira Sans', sans-serif;
 		  font-size: 50px;
 		}
 
@@ -136,7 +136,7 @@ function processing(){
     
     for(var i = json.length-1; i>=1; i--){
       for(var j = 0; j<= i-1; j++){
-        if(json[j].score > json[j+1]){
+        if(json[j].score > json[j+1].score){
           var temp = json[j];
           json[j] = json[j+1];
           json[j+1] = temp;
@@ -144,7 +144,9 @@ function processing(){
       }
     }
 
-    for(var i =0;i<json.length;i++){  
+    json = json.reverse()
+
+    for(var i =0;i<json.length;i++){
       if(i == 0){
         json[i].rank = i+1;
       }else{
@@ -164,7 +166,7 @@ function processing(){
 
 processing();
 
-setInterval(processing, 3500)
+//setInterval(processing, 3500)
 </script>
 
 <script type="text/javascript">
